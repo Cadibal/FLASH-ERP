@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --white: #ffffff;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .register-container {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      padding: 40px;
+    }
+    
+    .register-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .register-header h2 {
+      color: var(--primary);
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .register-header p {
+      color: var(--gray);
+      font-size: 14px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .form-group i {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      color: var(--gray);
+      font-size: 16px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 15px 15px 15px 45px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+      outline: none;
+    }
+    
+    button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border: none;
+      color: var(--white);
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--gray);
+      font-size: 14px;
+    }
+    
+    .login-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 576px) {
+      .register-container {
+        padding: 30px 20px;
+      }
+      
+      .register-header h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <div class="register-header">
+      <h2>Create Account</h2>
+      <p>Register to access your student dashboard</p>
+    </div>
+    
+    <form id="registerForm" enctype="multipart/form-data">
+      <div class="form-group">
+        <i class="fas fa-user"></i>
+        <input type="text" name="name" placeholder="Full Name" required>
+      </div>
+      
+      <div class="form-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" name="email" placeholder="Email Address" required>
+      </div>
+      
+      <div class="form-group">
+        <i class="fas fa-phone"></i>
+        <input type="text" name="mobile" placeholder="Mobile Number" required>
+      </div>
+      
+      <div class="form-group">
+        <i class="fas fa-building"></i>
+        <input type="text" name="department" placeholder="Department" required>
+      </div>
+      
+      <div class="form-group">
+        <i class="fas fa-graduation-cap"></i>
+        <input type="text" name="semester" placeholder="Semester" required>
+      </div>
+      
+      <div class="form-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="password" placeholder="Password" required>
+      </div>
+      
+      <div class="form-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+      </div>
+      
+      <button type="submit">
+        <i class="fas fa-user-plus"></i> Register Now
+      </button>
+    </form>
+    
+    <div class="login-link">
+      Already have an account? <a href="login.html">Login here</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+  
+      fetch("students/register.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "success") {
+          alert("✅ Registered Successfully! Redirecting to Login...");
+          window.location.href = "login.html"; // 👈 Redirect to Login Page
+        } else {
+          alert("❌ Registration Failed: " + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("❌ An error occurred during registration. Please try again.");
+      });
+    });
+  </script>
+</body>
+</html>
